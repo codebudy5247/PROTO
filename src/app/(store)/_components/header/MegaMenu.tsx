@@ -3,7 +3,6 @@ import { CollectionType } from "@prisma/client";
 import Link from "next/link";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
-
 interface Props {
   type: CollectionType;
   collections: Collections;
@@ -78,38 +77,34 @@ export const MegaMenu = ({
           </div>
         </div>
         <div className="flex flex-[3] border-l border-solid shadow-neutral-300">
-          {collections &&
-            collections.map((collection) => (
-              <div
-                key={collection.id}
-                className="ml-4 w-full max-w-[150px] py-8"
+          {collections?.map((collection) => (
+            <div key={collection.id} className="ml-4 w-full max-w-[150px] py-8">
+              <Link
+                href={`/products/${typeInLowerCase}/${collection.slug}`}
+                onClick={onCloseMenu}
+                className="text-sm font-bold uppercase leading-4 tracking-widest text-neutral-800 hover:underline"
               >
-                <Link
-                  href={`/products/${typeInLowerCase}/${collection.slug}`}
-                  onClick={onCloseMenu}
-                  className="text-sm font-bold uppercase leading-4 tracking-widest text-neutral-800 hover:underline"
-                >
-                  {collection.name}
-                </Link>
-                <ul className="pt-2">
-                  {collection.children
-                    .filter((subCollection) =>
-                      subCollection.types.includes(type),
-                    )
-                    .map((subCollection) => (
-                      <li key={subCollection.id}>
-                        <Link
-                          href={`/products/${typeInLowerCase}/${subCollection.slug}`}
-                          className="mb-1.5 text-xs font-normal text-neutral-700 hover:underline"
-                          onClick={onCloseMenu}
-                        >
-                          {subCollection.name}
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            ))}
+                {collection.name}
+              </Link>
+              <ul className="pt-2">
+                {collection.children
+                  ?.filter((subCollection) =>
+                    subCollection.types.includes(type),
+                  )
+                  .map((subCollection) => (
+                    <li key={subCollection.id}>
+                      <Link
+                        href={`/products/${typeInLowerCase}/${subCollection.slug}`}
+                        className="mb-1.5 text-xs font-normal text-neutral-700 hover:underline"
+                        onClick={onCloseMenu}
+                      >
+                        {subCollection.name}
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
       <div className="border-t border-solid shadow-neutral-300">
