@@ -1,9 +1,12 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Product } from "@/types";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import { ShoppingBag } from 'lucide-react';
 import { useState } from "react";
+
 
 const ProductItem = ({
   id,
@@ -71,6 +74,10 @@ const ProductItem = ({
             {/* <BsStarFill size="11px" className="mr-1 text-yellow-400" /> */}
             {/* <h4>{rate} (69 Reviews)</h4> */}
           </div>
+          <Button variant="outline" className="flex gap-2">
+            <ShoppingBag />
+            Add to bag
+          </Button>
         </div>
       </div>
     </div>

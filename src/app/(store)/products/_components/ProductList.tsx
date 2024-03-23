@@ -9,7 +9,7 @@ interface Props {
 
 const ProductList = ({ products }: Props) => {
   return (
-    <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4">
       {products === undefined &&
         Array(12)
           .fill("")
