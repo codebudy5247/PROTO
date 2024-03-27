@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { hashSync, compareSync } from "bcrypt";
 import * as jwt from "jsonwebtoken";
@@ -22,11 +21,11 @@ export const authRouter = createTRPCRouter({
     }),
 
   login: publicProcedure.input(LoginSchema).mutation(async ({ ctx, input }) => {
-    let user = await ctx.db.user.findFirst({ where: { email: input.email } });
+    const user = await ctx.db.user.findFirst({ where: { email: input.email } });
     if (!user) throw Error("User not found");
     if (!compareSync(input.password, user.password))
       throw Error("Incorrect password");
-    const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET as string, {
+    const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET!, {
       expiresIn: 60 * 60,
     });
     const cookieOptions = {

@@ -38,7 +38,7 @@ const SignupForm = () => {
     onSettled() {
       setSubmitting(false);
     },
-    onSuccess: (data: any) => {
+    onSuccess: (data) => {
       toast.success("Registered successfully");
       router.push("/signin")
     },
