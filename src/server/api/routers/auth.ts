@@ -1,8 +1,9 @@
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 import { hashSync, compareSync } from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { RegisterSchema, LoginSchema } from "@/schemas/auth";
+import { TRPCError } from "@trpc/server";
 
 export const authRouter = createTRPCRouter({
   register: publicProcedure
@@ -40,14 +41,14 @@ export const authRouter = createTRPCRouter({
       token,
     };
   }),
-  //   me: protectedProcedure.query(({ ctx }) => {
-  //     try {
-  //       return ctx.user;
-  //     } catch (err: any) {
-  //       throw new TRPCError({
-  //         code: "INTERNAL_SERVER_ERROR",
-  //         message: err.message,
-  //       });
-  //     }
-  //   }),
+    me: protectedProcedure.query(({ ctx }) => {
+      try {
+        return ctx.user;
+      } catch (err) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Not authorized to perform this action.",
+        });
+      }
+    }),
 });

@@ -18,6 +18,7 @@ import { api } from "@/trpc/react";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { LoginSchema } from "@/schemas/auth";
+import useAuthStore from "@/hooks/useAuth";
 
 const SigninForm = () => {
   const router = useRouter();
@@ -30,6 +31,8 @@ const SigninForm = () => {
     },
   });
 
+  const updateUser = useAuthStore((state) => state.updateUser);
+
   const { mutate: loginFn } = api.auth.login.useMutation({
     onMutate() {
       setSubmitting(true);
@@ -39,6 +42,7 @@ const SigninForm = () => {
     },
     onSuccess: (data) => {
       toast.success("Login successfully");
+      updateUser(data.user);
       router.push("/")
     },
     onError: (error) => {

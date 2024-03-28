@@ -9,6 +9,8 @@ import { MegaMenu } from "./MegaMenu";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Search } from "./Search";
 import { Button } from "@/components/ui/button";
+import { api } from "@/trpc/react";
+import { UserMenu } from "./UserMenu";
 
 export interface NavLink {
   name: "men" | "women" | "kids" | "sale" | "blog" | "contacts";
@@ -28,13 +30,14 @@ export const navLinks: NavLink[] = [
 export const sideNavLinks: [string, LucideIcon][] = [
   ["/wishlist", Heart],
   ["/cart", ShoppingBagIcon],
-  ["/signin", User],
 ];
 
 export const Header = ({ collections }: { collections: Collections }) => {
   const [hoveredNavLink, setHoveredNavLink] = useState<NavLink | null>();
   const handleShowMenu = (navLink: NavLink) => setHoveredNavLink(navLink);
   const handleCloseMenu = () => setHoveredNavLink(null);
+
+  const { data: session } = api.auth.me.useQuery();
 
   return (
     <header>
@@ -69,37 +72,27 @@ export const Header = ({ collections }: { collections: Collections }) => {
           </ul>
           <ul className="ml-auto items-center md:flex">
             <Search onSearch={(value) => console.log(value)} />
-            {/* {sideNavLinks.map(([url, Icon]) => (
-              <Link key={url} href={url} className="ml-5 hidden md:block">
-                <Icon
-                  className="text-neutral-700 transition-colors hover:text-violet-700"
-                  size="20px"
-                />
-              </Link>
-            ))} */}
-            {/* {session && (
-            <button
-              className="ml-5 hidden rounded-full border border-solid border-violet-700 p-[2px] md:block"
-              onClick={() => signOut()}
-            >
-              {session.user?.image && (
-                <Image
-                  src={session.user.image}
-                  alt="user profile image"
-                  width={30}
-                  height={30}
-                  className="overflow-hidden rounded-full"
-                  quality={100}
-                />
-              )}
-            </button>
-          )} */}
-            <div className="ml-5">
-              <Link href="/signin">
-              <Button variant="outline">Signin</Button>
-              </Link>
-              
-            </div>
+            {session?.user && (
+              <div className="m-auto flex items-center gap-2">
+                {sideNavLinks.map(([url, Icon]) => (
+                  <Link key={url} href={url} className="ml-2 hidden md:block">
+                    <Icon
+                      className="text-neutral-700 transition-colors hover:text-violet-700"
+                      size="20px"
+                    />
+                  </Link>
+                ))}
+                <UserMenu user={session?.user} />
+              </div>
+            )}
+
+            {!session?.user && (
+              <div className="ml-5">
+                <Link href="/signin">
+                  <Button variant="outline">Signin</Button>
+                </Link>
+              </div>
+            )}
           </ul>
         </div>
         {hoveredNavLink && (
