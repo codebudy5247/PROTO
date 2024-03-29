@@ -4,9 +4,11 @@ import { Product } from "@/types";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
-
+import useAuthStore from "@/hooks/useAuth";
+import { api } from "@/trpc/react";
+import toast from "react-hot-toast";
 
 const ProductItem = ({
   id,
@@ -17,8 +19,33 @@ const ProductItem = ({
   collection,
 }: Product) => {
   const [currentImage, setCurrentImage] = useState(images[0]?.imageURL);
-
+  const [submitting, setSubmitting] = useState(false);
   const productLink = `/product/${id}/slug`;
+
+  const session = useAuthStore((state) => state.user);
+
+  const { mutate: addToCartFn } = api.cart.addItem.useMutation({
+    onMutate() {
+      setSubmitting(true);
+    },
+    onSettled() {
+      setSubmitting(false);
+    },
+    onSuccess: (data) => {
+      toast.success("Item Added to Cart!");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const addToCartHandler = (id: string) => {
+    const payload = {
+      productId: id,
+      quantity: 1,
+    };
+    addToCartFn(payload);
+  };
   return (
     <div className="group rounded-2xl bg-white p-2 shadow-sm">
       <div className="relative h-[400px] overflow-hidden rounded-2xl transition sm:h-[330px]">
@@ -68,17 +95,23 @@ const ProductItem = ({
         </div>
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-black">
-            ${price.toFixed(2)}
+            ₹{price.toFixed(2)}
           </h3>
           <div className="flex items-center justify-center text-xs font-medium text-neutral-500">
-            {/* <BsStarFill size="11px" className="mr-1 text-yellow-400" /> */}
-            {/* <h4>{rate} (69 Reviews)</h4> */}
+            <Star size={20} className="mr-1 text-yellow-400" />
+            <h4>{rate} (69 Reviews)</h4>
           </div>
-          <Button variant="outline" className="flex gap-2">
+        </div>
+        {session && (
+          <Button
+            onClick={() => addToCartHandler(id)}
+            variant="default"
+            className="flex gap-1 w-full"
+          >
             <ShoppingBag />
             Add to bag
           </Button>
-        </div>
+        )}
       </div>
     </div>
   );

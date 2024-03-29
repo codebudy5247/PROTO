@@ -28,7 +28,7 @@ export const navLinks: NavLink[] = [
 ];
 
 export const sideNavLinks: [string, LucideIcon][] = [
-  ["/wishlist", Heart],
+  // ["/wishlist", Heart],
   ["/cart", ShoppingBagIcon],
 ];
 
@@ -38,6 +38,7 @@ export const Header = ({ collections }: { collections: Collections }) => {
   const handleCloseMenu = () => setHoveredNavLink(null);
 
   const { data: session } = api.auth.me.useQuery();
+  const { data: userCart } = api.cart.getCart.useQuery();
 
   return (
     <header>
@@ -75,12 +76,19 @@ export const Header = ({ collections }: { collections: Collections }) => {
             {session?.user && (
               <div className="m-auto flex items-center gap-2">
                 {sideNavLinks.map(([url, Icon]) => (
-                  <Link key={url} href={url} className="ml-2 hidden md:block">
-                    <Icon
-                      className="text-neutral-700 transition-colors hover:text-violet-700"
-                      size="20px"
-                    />
-                  </Link>
+                  <>
+                    <Link href="/cart">
+                      <div className="relative cursor-pointer">
+                        <Icon
+                          className="text-neutral-700 transition-colors hover:text-violet-700"
+                          size="30px"
+                        />
+                        <div className="absolute right-0 top-0 grid h-[18px] w-[18px] -translate-y-1 translate-x-1 place-items-center rounded-full bg-violet-700 text-[12px] text-white">
+                          {userCart?.cartItemCount}
+                        </div>
+                      </div>
+                    </Link>
+                  </>
                 ))}
                 <UserMenu user={session?.user} />
               </div>
