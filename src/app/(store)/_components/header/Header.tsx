@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Collections } from "@/types";
 import { LucideIcon } from "lucide-react";
+import Logo from "@/components/Logo";
 import { Heart, ShoppingBagIcon, User } from "lucide-react";
 import { useState } from "react";
 import { MegaMenu } from "./MegaMenu";
@@ -22,9 +23,9 @@ export const navLinks: NavLink[] = [
   { name: "men", href: "/products/men", collapsible: true },
   { name: "women", href: "/products/women", collapsible: true },
   { name: "kids", href: "/products/kids" },
-  { name: "sale", href: "/sale" },
-  { name: "blog", href: "/blog" },
-  { name: "contacts", href: "/contacts" },
+  // { name: "sale", href: "/sale" },
+  // { name: "blog", href: "/blog" },
+  // { name: "contacts", href: "/contacts" },
 ];
 
 export const sideNavLinks: [string, LucideIcon][] = [
@@ -38,18 +39,14 @@ export const Header = ({ collections }: { collections: Collections }) => {
   const handleCloseMenu = () => setHoveredNavLink(null);
 
   const { data: session } = api.auth.me.useQuery();
-  const { data: userCart } = api.cart.getCart.useQuery();
+  const { data: userCart } = api.cart.getCart.useQuery(); // TODO: Skip this query when user session == null
 
   return (
     <header>
       <div className="relative h-14 bg-white shadow-md shadow-gray-200">
         <div className="mx-auto flex h-full items-center px-4 xl:container">
           <div className="mr-5 flex shrink-0 items-center">
-            <Link href="/">
-              <div className="pb-4 text-center text-4xl font-bold text-[] sm:pb-0">
-                Store
-              </div>
-            </Link>
+            <Logo />
           </div>
           <ul className="ml-auto hidden h-full md:flex">
             {navLinks.map((item, index) => (

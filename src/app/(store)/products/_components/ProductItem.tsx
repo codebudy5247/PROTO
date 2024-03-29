@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
-import useAuthStore from "@/hooks/useAuth";
 import { api } from "@/trpc/react";
 import toast from "react-hot-toast";
 
@@ -22,7 +21,7 @@ const ProductItem = ({
   const [submitting, setSubmitting] = useState(false);
   const productLink = `/product/${id}/slug`;
 
-  const session = useAuthStore((state) => state.user);
+  const { data: session } = api.auth.me.useQuery();
 
   const { mutate: addToCartFn } = api.cart.addItem.useMutation({
     onMutate() {
@@ -102,7 +101,7 @@ const ProductItem = ({
             <h4>{rate} (69 Reviews)</h4>
           </div>
         </div>
-        {session && (
+        {!session?.user === null && (
           <Button
             onClick={() => addToCartHandler(id)}
             variant="default"

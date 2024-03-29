@@ -30,6 +30,7 @@ export const productRouter = createTRPCRouter({
   list: publicProcedure
     .input(
       z.object({
+        take:z.number(),
         types: z.nativeEnum(CollectionType).optional(),
         slug: z.string().optional(),
         page: z.number().optional(),
@@ -52,7 +53,7 @@ export const productRouter = createTRPCRouter({
         colors = [],
       } = input;
 
-      const take = 10;
+      const take = input.take;
       const skip = take * (page - 1);
 
       const where: Prisma.ProductWhereInput = {

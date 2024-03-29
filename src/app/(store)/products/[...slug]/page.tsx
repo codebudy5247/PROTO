@@ -23,6 +23,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({
   const { slug } = params as { slug: string[] | undefined };
 
   const products = await api.product.list({
+    take:10,
     types: slug?.[0]?.toUpperCase() as CollectionType,
     slug: slug?.[1],
     sizes: [searchParams.sizes].flat(1).filter(Boolean) as ProductSize[],
