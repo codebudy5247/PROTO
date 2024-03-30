@@ -8,7 +8,7 @@ import {
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { defaultCollectionSelect } from "./collection";
 
-const defaultProductSelect = Prisma.validator<Prisma.ProductSelect>()({
+export const defaultProductSelect = Prisma.validator<Prisma.ProductSelect>()({
   id: true,
   name: true,
   description: true,

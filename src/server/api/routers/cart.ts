@@ -1,11 +1,21 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { type Product } from "@prisma/client";
+import { Prisma, type Product } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import {
   CreateCartSchema,
   ChangeQuantitySchema,
   DeleteCartSchema,
 } from "@/schemas/cart";
+import { defaultProductSelect } from "./product";
+
+const defaultCartSelect = Prisma.validator<Prisma.CartItemSelect>()({
+  id: true,
+  quantity:true,
+  userId:true,
+  Product: {
+    select: defaultProductSelect,
+  },
+});
 
 export const cartRouter = createTRPCRouter({
   addItem: protectedProcedure
@@ -88,7 +98,7 @@ export const cartRouter = createTRPCRouter({
       });
       return updatedCart;
     }),
-  getCart: protectedProcedure.query(async ({ ctx, input }) => {
+  list: protectedProcedure.query(async ({ ctx}) => {
     if (ctx.user.user === null) {
       throw new TRPCError({
         code: "UNAUTHORIZED",
@@ -96,15 +106,10 @@ export const cartRouter = createTRPCRouter({
       });
     }
     const cart = await ctx.db.cartItem.findMany({
+      select: defaultCartSelect,
+      orderBy: { id: "asc" },
       where: {
         userId: ctx.user.user.id,
-      },
-      include: {
-        Product: {
-          include: {
-            images: true,
-          },
-        },
       },
     });
     const cartItemCount = await ctx.db.cartItem.count({

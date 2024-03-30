@@ -39,7 +39,7 @@ export const Header = ({ collections }: { collections: Collections }) => {
   const handleCloseMenu = () => setHoveredNavLink(null);
 
   const { data: session } = api.auth.me.useQuery();
-  const { data: userCart } = api.cart.getCart.useQuery(); // TODO: Skip this query when user session == null
+  const { data: userCart } = api.cart.list.useQuery(); // TODO: Skip this query when user session == null
 
   return (
     <header>

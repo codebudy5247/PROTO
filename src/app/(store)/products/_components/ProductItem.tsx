@@ -39,11 +39,7 @@ const ProductItem = ({
   });
 
   const addToCartHandler = (id: string) => {
-    const payload = {
-      productId: id,
-      quantity: 1,
-    };
-    addToCartFn(payload);
+    addToCartFn({ productId: id, quantity: 1 });
   };
   return (
     <div className="group rounded-2xl bg-white p-2 shadow-sm">
@@ -101,11 +97,11 @@ const ProductItem = ({
             <h4>{rate} (69 Reviews)</h4>
           </div>
         </div>
-        {!session?.user === null && (
+        {session?.user && (
           <Button
             onClick={() => addToCartHandler(id)}
             variant="default"
-            className="flex gap-1 w-full"
+            className="flex w-full gap-1"
           >
             <ShoppingBag />
             Add to bag
