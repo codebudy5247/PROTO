@@ -3,6 +3,7 @@ import { productRouter } from "./routers/product";
 import { collectionRouter } from "./routers/collection";
 import { authRouter } from "./routers/auth";
 import { cartRouter } from "./routers/cart";
+import { userRouter } from "./routers/user";
 /**
  * This is the primary router for your server.
  *
@@ -12,7 +13,8 @@ export const appRouter = createTRPCRouter({
    product:productRouter,
    collection:collectionRouter,
    auth:authRouter,
-   cart:cartRouter
+   cart:cartRouter,
+   user:userRouter
 });
 
 // export type definition of API

@@ -41,19 +41,34 @@ enum ProductColor {
 }
 
 model User {
-    id                     String   @id @default(uuid())
+    id                     String     @id @default(uuid())
     name                   String
-    email                  String   @unique
+    email                  String     @unique
     password               String
-    role                   Role     @default(USER)
+    role                   Role       @default(USER)
     defaultShippingAddress String?
     defaultBillingAddress  String?
-    createdAt              DateTime @default(now())
-    updatedAt              DateTime @updatedAt
-
-    cartItems CartItem[]
+    createdAt              DateTime   @default(now())
+    updatedAt              DateTime   @updatedAt
+    addresses              Address[]
+    cartItems              CartItem[]
 
     @@map("users")
+}
+
+model Address {
+    id        String   @id @default(uuid())
+    lineOne   String
+    lineTwo   String?
+    city      String
+    country   String
+    pincode   String
+    User      User     @relation(fields: [userId], references: [id])
+    userId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("addresses")
 }
 
 model Collection {
