@@ -3,6 +3,7 @@ import { api } from "@/trpc/react";
 import { useEffect, useState } from "react";
 import AddAddressForm from "./AddAddressForm";
 import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   handleNext: () => void;
@@ -119,12 +120,13 @@ const ShippingAddress = ({ handleNext }: Props) => {
                       </div>
                     ))}
                     {addressList?.length > 0 && (
-                      <button
+                      <Button
                         onClick={updateDefaultAddressHandler}
-                        className="mb-4 mt-2 w-fit rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+                        variant="default"
+                        className="w-fit"
                       >
                         Use this address
-                      </button>
+                      </Button>
                     )}
                   </div>
                 )}

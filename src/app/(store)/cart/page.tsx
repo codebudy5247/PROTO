@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import CartItems from "./_components/CartItems";
+import { Button } from "@/components/ui/button";
 
 const CartPage = () => {
   return (
@@ -14,12 +15,9 @@ const CartPage = () => {
               </div>
               <div className="mt-6 text-center">
                 <Link href="/checkout">
-                  <button
-                    type="button"
-                    className="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out hover:bg-gray-800 focus:shadow"
-                  >
+                  <Button type="button" variant="default" className="w-full">
                     Proceed to Buy
-                  </button>
+                  </Button>
                 </Link>
               </div>
             </div>

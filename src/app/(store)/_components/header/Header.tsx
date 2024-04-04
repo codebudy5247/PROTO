@@ -94,7 +94,7 @@ export const Header = ({ collections }: { collections: Collections }) => {
             {!session?.user && (
               <div className="ml-5">
                 <Link href="/signin">
-                  <Button variant="outline">Signin</Button>
+                  <Button variant="default">Signin</Button>
                 </Link>
               </div>
             )}
