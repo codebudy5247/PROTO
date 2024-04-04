@@ -21,12 +21,6 @@ export const cartRouter = createTRPCRouter({
   addItem: protectedProcedure
     .input(CreateCartSchema)
     .mutation(async ({ ctx, input }) => {
-      if (ctx.user.user === null) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You are not authorized.",
-        });
-      }
       let product: Product;
       try {
         product = await ctx.db.product.findFirstOrThrow({
@@ -69,25 +63,21 @@ export const cartRouter = createTRPCRouter({
         });
         return updatedCartItem;
       } else {
-        const newCartItem = await ctx.db.cartItem.create({
-          data: {
-            userId: ctx.user.user.id,
-            productId: product.id,
-            quantity: input.quantity,
-          },
-        });
-        return newCartItem;
+        if(ctx.user.user){
+          const newCartItem = await ctx.db.cartItem.create({
+            data: {
+              userId: ctx.user.user.id,
+              productId: product.id,
+              quantity: input.quantity,
+            },
+          });
+          return newCartItem;
+        }
       }
     }),
   changeQuantity: protectedProcedure
     .input(ChangeQuantitySchema)
     .mutation(async ({ ctx, input }) => {
-      if (ctx.user.user === null) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You are not authorized.",
-        });
-      }
       const updatedCart = await ctx.db.cartItem.update({
         where: {
           id: input.cartId,
@@ -99,22 +89,16 @@ export const cartRouter = createTRPCRouter({
       return updatedCart;
     }),
   list: protectedProcedure.query(async ({ ctx}) => {
-    if (ctx.user.user === null) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "You are not authorized.",
-      });
-    }
     const cart = await ctx.db.cartItem.findMany({
       select: defaultCartSelect,
       orderBy: { id: "asc" },
       where: {
-        userId: ctx.user.user.id,
+        userId: ctx?.user?.user?.id,
       },
     });
     const cartItemCount = await ctx.db.cartItem.count({
       where: {
-        userId: ctx.user.user.id,
+        userId: ctx?.user?.user?.id,
       },
     });
     return {
@@ -125,12 +109,6 @@ export const cartRouter = createTRPCRouter({
   deleteItem: protectedProcedure
     .input(DeleteCartSchema)
     .mutation(async ({ ctx, input }) => {
-      if (ctx.user.user === null) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You are not authorized.",
-        });
-      }
       await ctx.db.cartItem.delete({
         where: {
           id: input.cartId,

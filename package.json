@@ -13,7 +13,7 @@
     "start": "next start",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "precommit": "pnpm lint && pnpm test && pnpm build",
+    "precommit": "pnpm lint && pnpm test && next build",
     "prepare": "husky install",
     "db:seed": "prisma db seed"
   },

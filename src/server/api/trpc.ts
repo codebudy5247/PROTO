@@ -34,17 +34,17 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 });
 
 const isAuthed = t.middleware(({ next, ctx }) => {
-  if (!ctx.user) {
+  if (!ctx.user.user) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
-      message: "You must be logged in to access this resource",
+      message: "You must be logged in to access this resource.",
     });
   }
   return next();
 });
 
 const isAdmin = t.middleware(({ next, ctx }) => {
-  if (!ctx.user || ctx.user.user?.role !== "ADMIN") {
+  if (!ctx.user.user || ctx.user.user?.role !== "ADMIN") {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "You are not authorized to perform this action",
