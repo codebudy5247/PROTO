@@ -19,7 +19,7 @@ const ProductItem = ({
 }: Product) => {
   const [currentImage, setCurrentImage] = useState(images[0]?.imageURL);
   const [submitting, setSubmitting] = useState(false);
-  const productLink = `/product/${id}/slug`;
+  const productLink = `/product/${id}`;
 
   const { data: session } = api.auth.me.useQuery();
 

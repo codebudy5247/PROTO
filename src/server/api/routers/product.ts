@@ -7,6 +7,7 @@ import {
 } from "@prisma/client";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { defaultCollectionSelect } from "./collection";
+import { TRPCError } from "@trpc/server";
 
 export const defaultProductSelect = Prisma.validator<Prisma.ProductSelect>()({
   id: true,
@@ -14,6 +15,8 @@ export const defaultProductSelect = Prisma.validator<Prisma.ProductSelect>()({
   description: true,
   price: true,
   rate: true,
+  sizes:true,
+  colors:true,
   images: {
     select: {
       imageURL: true,
@@ -30,7 +33,7 @@ export const productRouter = createTRPCRouter({
   list: publicProcedure
     .input(
       z.object({
-        take:z.number(),
+        take: z.number(),
         types: z.nativeEnum(CollectionType).optional(),
         slug: z.string().optional(),
         page: z.number().optional(),
@@ -93,5 +96,20 @@ export const productRouter = createTRPCRouter({
         products,
         totalCount,
       };
+    }),
+  id: publicProcedure
+    .input(z.string().refine((value) => !!value, { message: "ID is required" }))
+    .query(async ({ ctx, input }) => {
+      const product = await ctx.db.product.findUnique({
+        where: { id: input },
+        select: defaultProductSelect,
+      });
+      if (!product) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Product not found",
+        });
+      }
+      return product;
     }),
 });
