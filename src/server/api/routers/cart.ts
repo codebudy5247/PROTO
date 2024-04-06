@@ -12,6 +12,8 @@ const defaultCartSelect = Prisma.validator<Prisma.CartItemSelect>()({
   id: true,
   quantity:true,
   userId:true,
+  size:true,
+  color:true,
   Product: {
     select: defaultProductSelect,
   },
