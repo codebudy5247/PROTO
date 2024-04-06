@@ -33,6 +33,8 @@ const SigninForm = () => {
 
   const updateUser = useAuthStore((state) => state.updateUser);
 
+  // const from = localStorage.getItem("PreviousLoc")! || "/"
+
   const { mutate: loginFn } = api.auth.login.useMutation({
     onMutate() {
       setSubmitting(true);
@@ -43,7 +45,7 @@ const SigninForm = () => {
     onSuccess: (data) => {
       toast.success("Login successfully");
       updateUser(data.user);
-      router.push("/")
+      router.push("/");
     },
     onError: (error) => {
       toast.error(error.message);
@@ -52,7 +54,7 @@ const SigninForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-     loginFn(values)
+    loginFn(values);
   };
 
   return (

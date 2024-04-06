@@ -69,6 +69,8 @@ export const cartRouter = createTRPCRouter({
               userId: ctx.user.user.id,
               productId: product.id,
               quantity: input.quantity,
+              size:input.size,
+              color:input.color
             },
           });
           return newCartItem;

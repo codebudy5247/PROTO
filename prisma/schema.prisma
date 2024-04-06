@@ -139,6 +139,8 @@ model CartItem {
     User      User     @relation(fields: [userId], references: [id])
     userId    String
     Product   Product  @relation(fields: [productId], references: [id])
+    size      String
+    color     String
     productId String
     quantity  Int
     createdAt DateTime @default(now())
@@ -168,6 +170,8 @@ model OrderProduct {
     Order     Order    @relation(fields: [orderId], references: [id])
     orderId   String
     Product   Product  @relation(fields: [productId], references: [id])
+    size      String
+    color     String
     productId String
     quantity  Int
     createdAt DateTime @default(now())

@@ -18,29 +18,10 @@ const ProductItem = ({
   collection,
 }: Product) => {
   const [currentImage, setCurrentImage] = useState(images[0]?.imageURL);
-  const [submitting, setSubmitting] = useState(false);
   const productLink = `/product/${id}`;
 
-  const { data: session } = api.auth.me.useQuery();
+  // const { data: session } = api.auth.me.useQuery();
 
-  const { mutate: addToCartFn } = api.cart.addItem.useMutation({
-    onMutate() {
-      setSubmitting(true);
-    },
-    onSettled() {
-      setSubmitting(false);
-    },
-    onSuccess: (data) => {
-      toast.success("Item Added to Cart!");
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const addToCartHandler = (id: string) => {
-    addToCartFn({ productId: id, quantity: 1 });
-  };
   return (
     <div className="group rounded-2xl bg-white p-2 shadow-sm">
       <div className="relative h-[400px] overflow-hidden rounded-2xl transition sm:h-[330px]">
@@ -97,7 +78,7 @@ const ProductItem = ({
             <h4>{rate} (69 Reviews)</h4>
           </div>
         </div>
-        {session?.user && (
+        {/* {session?.user && (
           <Button
             onClick={() => addToCartHandler(id)}
             variant="default"
@@ -106,7 +87,7 @@ const ProductItem = ({
             <ShoppingBag />
             Add to bag
           </Button>
-        )}
+        )} */}
       </div>
     </div>
   );

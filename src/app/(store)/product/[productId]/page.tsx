@@ -1,8 +1,9 @@
 import { api } from "@/trpc/server";
 import Container from "@/components/Container";
-import { Button } from "@/components/ui/button";
-import { ShoppingBag } from "lucide-react";
 import ProductImage from "../_components/ProductImage";
+import SelectSize from "../_components/SelectSize";
+import SelectColor from "../_components/SelectColor";
+import AddToBag from "../_components/AddToBag";
 
 interface Props {
   params: {
@@ -12,7 +13,6 @@ interface Props {
 
 const ProductDetail = async ({ params }: Props) => {
   const product = await api.product.id(params.productId);
-  console.log(product);
 
   return (
     <>
@@ -33,50 +33,17 @@ const ProductDetail = async ({ params }: Props) => {
               </div>
 
               <h2 className="mt-8 text-base text-gray-900">Sizes</h2>
-              <div className="mt-3 flex select-none flex-wrap items-center gap-1">
-                {product.sizes.map((size,index) =>(
-                  <label className="" key={index}>
-                  <input
-                    type="radio"
-                    name="type"
-                    value={size}
-                    className="peer sr-only"
-                  />
-                  <p className="rounded-lg border border-black px-6 py-2 font-bold peer-checked:bg-black peer-checked:text-white">
-                    {size}
-                  </p>
-                </label>
-                ))}
-              </div>
-
-              <h2 className="mt-8 text-base text-gray-900">
-                Colors
-              </h2>
-              <div className="mt-3 flex select-none flex-wrap items-center gap-1">
-                {product.colors.map((color,index) => (
-                  <label className="" key={index}>
-                  <input
-                    type="radio"
-                    name="subscription"
-                    value={color}
-                    className="peer sr-only"
-                  />
-                  <p className="rounded-lg border border-black px-6 py-2 font-bold peer-checked:bg-black peer-checked:text-white">
-                    {color}
-                  </p>
-                </label>
-                ))} 
-              </div>
+              <SelectSize sizes={product.sizes} />
+              <h2 className="mt-8 text-base text-gray-900">Colors</h2>
+              <SelectColor colors={product.colors} />
 
               <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-b border-t py-4 sm:flex-row sm:space-y-0">
                 <div className="flex items-end">
-                  <h1 className="text-3xl font-bold">₹{product.price.toFixed(2)}</h1>
+                  <h1 className="text-3xl font-bold">
+                    ₹{product.price.toFixed(2)}
+                  </h1>
                 </div>
-
-                <Button variant="default" className="flex gap-1">
-                  <ShoppingBag />
-                  Add to bag
-                </Button>
+                <AddToBag id={product.id} />
               </div>
 
               <ul className="mt-8 space-y-2">
