@@ -36,7 +36,11 @@ const config = {
           "attributes": false
         }
       }
-    ]
+    ],
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "@typescript-eslint/no-unsafe-member-access":"warn",
+    "@typescript-eslint/no-unsafe-call":"warn",
   }
 }
 module.exports = config;

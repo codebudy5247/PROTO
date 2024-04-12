@@ -8,7 +8,7 @@ import {
 } from "@/schemas/cart";
 import { defaultProductSelect } from "./product";
 
-const defaultCartSelect = Prisma.validator<Prisma.CartItemSelect>()({
+export const defaultCartSelect = Prisma.validator<Prisma.CartItemSelect>()({
   id: true,
   quantity:true,
   userId:true,
