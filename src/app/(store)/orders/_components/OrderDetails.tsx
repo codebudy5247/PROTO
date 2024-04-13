@@ -1,12 +1,6 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
-import {
-  CircleCheckBig,
-  CircleX,
-  Copy,
-  CreditCard,
-  Truck,
-} from "lucide-react";
+import { CircleCheckBig, CircleX, Copy, CreditCard, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,14 +11,21 @@ import {
 } from "@/components/ui/card";
 import { api } from "@/trpc/react";
 import { format } from "date-fns";
+import { useState } from "react";
+import OrderTrackModel from "./OrderTrackModel";
 
 interface Props {
   orderId: string | undefined;
 }
 
 const OrderDetails = ({ orderId }: Props) => {
-  const { data: order, isLoading } = api.order.byId.useQuery(orderId!);
+  const { data: order, isLoading, isError } = api.order.byId.useQuery(orderId!);
+  const [showOrderTrackModal, setShowOrderTrackModal] =
+    useState<boolean>(false);
 
+  if (isError || !order) {
+    return <div>Error loading order data...</div>;
+  }
   return (
     <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
       {isLoading && <div>Loading...</div>}
@@ -48,7 +49,12 @@ const OrderDetails = ({ orderId }: Props) => {
           )}
         </div>
         <div className="ml-auto flex items-center gap-1">
-          <Button size="sm" variant="outline" className="h-8 gap-1">
+          <Button
+            onClick={() => setShowOrderTrackModal(true)}
+            size="sm"
+            variant="outline"
+            className="h-8 gap-1"
+          >
             <Truck className="h-3.5 w-3.5" />
             <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
               Track Order
@@ -169,6 +175,11 @@ const OrderDetails = ({ orderId }: Props) => {
           <Button variant="destructive">Cancel order</Button>
         </div>
       </CardContent>
+      <OrderTrackModel
+        showModal={showOrderTrackModal}
+        setShowModal={setShowOrderTrackModal}
+        event={order.event}
+      />
     </Card>
   );
 };
