@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import toast from "react-hot-toast";
+import PaymentConfirmationModel from "./PaymentConfirmationModel";
 
 declare global {
   interface Window {
@@ -18,7 +19,10 @@ interface RazorpayPaymentHandlerResponse {
 
 const Payment = () => {
   const [submitting, setSubmitting] = useState(false);
+  const { data: user } = api.auth.me.useQuery();
   const { data: cartItems } = api.cart.list.useQuery();
+  const [showPaymentConfirmationModal, setShowPaymentConfirmationModal] =
+    useState<boolean>(false);
 
   const totalPrice = cartItems?.cart?.reduce((prev, current) => {
     return prev + current.quantity * +current.Product.price;
@@ -91,6 +95,7 @@ const Payment = () => {
                 if (verifyPaymentResponse.ok) {
                   // let verifyPaymentResponseData =
                   //   await verifyPaymentResponse.json();
+                  setShowPaymentConfirmationModal(true);
                 }
               } catch (error) {
                 alert(error);
@@ -117,6 +122,7 @@ const Payment = () => {
       console.log(error);
     }
   };
+  if(!user?.user) return
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8">
       <Script
@@ -151,6 +157,12 @@ const Payment = () => {
           </div>
         </div>
       </div>
+      <PaymentConfirmationModel
+        showModal={showPaymentConfirmationModal}
+        setShowModal={setShowPaymentConfirmationModal}
+        totalPrice={totalPrice!}
+        username={user.user.name}
+      />
     </div>
   );
 };

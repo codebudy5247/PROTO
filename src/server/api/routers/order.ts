@@ -3,6 +3,80 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const orderRouter = createTRPCRouter({
+  list: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.user.user === null) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "You are not authorized.",
+      });
+    }
+    const orders = await ctx.db.order.findMany({
+      where: {
+        userId: ctx.user.user.id,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return orders;
+  }),
+  byId: protectedProcedure
+    .input(
+      z
+        .string()
+        .refine((value) => !!value, { message: "Order ID is required" }),
+    )
+    .query(async ({ ctx, input }) => {
+      const order = await ctx.db.order.findUnique({
+        where: { id: input },
+        include: {
+          products: {
+            include: {
+              Product: true,
+            },
+          },
+          event: true,
+          payment: true,
+          User: true,
+        },
+      });
+      if (!order) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Order not found",
+        });
+      }
+      return order;
+    }),
+  cancel: protectedProcedure
+    .input(
+      z
+        .string()
+        .refine((value) => !!value, { message: "Order ID is required" }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user.user === null) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are not authorized.",
+        });
+      }
+      return await ctx.db.$transaction(async (tx) => {
+        const order = await tx.order.update({
+          where: {
+            id: input,
+          },
+          data: {
+            status: "CANCELLED",
+          },
+        });
+        await tx.orderEvent.create({
+          data: {
+            orderId: order.id,
+            status: "CANCELLED",
+          },
+        });
+        return order;
+      });
+    }),
   // create: protectedProcedure.mutation(async ({ ctx }) => {
   //   if (ctx.user.user === null) {
   //     throw new TRPCError({
@@ -50,51 +124,6 @@ export const orderRouter = createTRPCRouter({
   //     return order;
   //   });
   // }),
-  list: protectedProcedure.query(async ({ ctx }) => {
-    if (ctx.user.user === null) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "You are not authorized.",
-      });
-    }
-    const orders = await ctx.db.order.findMany({
-      where: {
-        userId: ctx.user.user.id,
-      },
-    });
-    return orders;
-  }),
-  cancel: protectedProcedure
-    .input(
-      z
-        .string()
-        .refine((value) => !!value, { message: "Order ID is required" }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      if (ctx.user.user === null) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You are not authorized.",
-        });
-      }
-      return await ctx.db.$transaction(async (tx) => {
-        const order = await tx.order.update({
-          where: {
-            id: input,
-          },
-          data: {
-            status: "CANCELLED",
-          },
-        });
-        await tx.orderEvent.create({
-          data: {
-            orderId: order.id,
-            status: "CANCELLED",
-          },
-        });
-        return order;
-      });
-    }),
   // generateRazorpayOrder: protectedProcedure
   //   .input(
   //     z
@@ -140,7 +169,6 @@ export const orderRouter = createTRPCRouter({
   //       },
   //     );
   //   }),
-
   // verifyPayment: protectedProcedure
   //   .input(VerifyPaymentSchema)
   //   .mutation(async ({ ctx, input }) => {
