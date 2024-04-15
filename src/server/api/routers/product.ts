@@ -5,9 +5,14 @@ import {
   ProductColor,
   ProductSize,
 } from "@prisma/client";
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import {
+  adminProtectedProcedure,
+  createTRPCRouter,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { defaultCollectionSelect } from "./collection";
 import { TRPCError } from "@trpc/server";
+import { CreateProductSchema } from "@/schemas/product";
 
 export const defaultProductSelect = Prisma.validator<Prisma.ProductSelect>()({
   id: true,
@@ -15,8 +20,8 @@ export const defaultProductSelect = Prisma.validator<Prisma.ProductSelect>()({
   description: true,
   price: true,
   rate: true,
-  sizes:true,
-  colors:true,
+  sizes: true,
+  colors: true,
   images: {
     select: {
       imageURL: true,
@@ -110,6 +115,41 @@ export const productRouter = createTRPCRouter({
           message: "Product not found",
         });
       }
+      return product;
+    }),
+  // Admin routes
+  create: adminProtectedProcedure
+    .input(CreateProductSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user.user === null || ctx.user.user.role !== "ADMIN") {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are not authorized.",
+        });
+      }
+      const product = await ctx.db.product.create({
+        data: {
+          name: input.name,
+          description: input.description,
+          price: input.price,
+          rate: input.rate,
+          published: input.published,
+          types: input.types,
+          colors: input.colors,
+          sizes: input.sizes,
+          collectionId: input.collectionId,
+          userId: ctx.user.user.id,
+          images: {
+            createMany: {
+              data: input.images.map((image) => ({
+                imageURL: image.imageURL,
+                imageBlur: image.imageBlur,
+              })),
+            },
+          },
+        },
+      });
+
       return product;
     }),
 });
