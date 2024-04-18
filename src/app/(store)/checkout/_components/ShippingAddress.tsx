@@ -59,11 +59,11 @@ const ShippingAddress = ({ handleNext }: Props) => {
     deleteAddressFn({ addressId: id });
   };
 
-  // useEffect(() => {
-  //   if (!selectedAddressId) {
-  //     setShowAddressForm(true);
-  //   }
-  // }, [selectedAddressId]);
+  useEffect(() => {
+    if (!selectedAddressId) {
+      setShowAddressForm(true);
+    }
+  }, [selectedAddressId]);
 
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -82,8 +82,7 @@ const ShippingAddress = ({ handleNext }: Props) => {
 
             {showAddressForm ? (
               <AddAddressForm
-                refetchAddressList={refetchAddressList}
-                setShowAddressForm={setShowAddressForm}
+                handleNext={handleNext}
               />
             ) : (
               <>

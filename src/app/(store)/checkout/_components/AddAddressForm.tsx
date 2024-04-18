@@ -18,11 +18,10 @@ import { api } from "@/trpc/react";
 import { Button } from "@/components/ui/button";
 
 interface Props {
-  refetchAddressList: VoidFunction;
-  setShowAddressForm: React.Dispatch<React.SetStateAction<boolean>>;
+  handleNext: () => void;
 }
 
-const AddAddressForm = ({ refetchAddressList, setShowAddressForm }: Props) => {
+const AddAddressForm = ({ handleNext }: Props) => {
   const [submitting, setSubmitting] = useState(false);
   const form = useForm<z.infer<typeof AddressSchema>>({
     resolver: zodResolver(AddressSchema),
@@ -35,6 +34,12 @@ const AddAddressForm = ({ refetchAddressList, setShowAddressForm }: Props) => {
     },
   });
 
+  const { mutate: updateShippingAddressFn } = api.user.update.useMutation({
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error.message);
+    },
+  });
   const { mutate: addAddressFn } = api.user.add.useMutation({
     onMutate() {
       setSubmitting(true);
@@ -44,8 +49,8 @@ const AddAddressForm = ({ refetchAddressList, setShowAddressForm }: Props) => {
     },
     onSuccess: (data) => {
       toast.success("Added!");
-      refetchAddressList();
-      setShowAddressForm(false);
+      updateShippingAddressFn({ defaultShippingAddress: data.id });
+      handleNext()
     },
     onError: (error) => {
       toast.error(error.message);
