@@ -10,6 +10,7 @@ import OrdersList from "./OrdersList";
 import OrderDetails from "./OrderDetails";
 import { useEffect, useState } from "react";
 import { api } from "@/trpc/react";
+import FullScreenLoader from "@/components/FullScreenLoader";
 
 const Orders = () => {
   const { data: orders, isError, isLoading } = api.order.list.useQuery();
@@ -22,7 +23,7 @@ const Orders = () => {
   }, [orders, selectedOrder]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <FullScreenLoader />
   }
 
   if (isError) {
