@@ -1,4 +1,4 @@
-import { LogOut, User as UserIcon } from "lucide-react";
+import { LogOut, ShoppingBagIcon, User as UserIcon } from "lucide-react";
 import { User } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-
+import Link from "next/link";
 
 interface Props {
   user: User;
@@ -28,6 +27,12 @@ export function UserMenu({ user }: Props) {
             <UserIcon className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
+          <Link href="/cart">
+            <DropdownMenuItem>
+              <ShoppingBagIcon className="mr-2 h-4 w-4" />
+              <span>Cart</span>
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>

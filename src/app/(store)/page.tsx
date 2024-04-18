@@ -26,12 +26,12 @@ const perks = [
 
 export default async function Home() {
   const mensLatestProducts = await api.product.list({
-    take: 4,
+    take: 3,
     types: "MEN",
   });
 
   const womenLatestProducts = await api.product.list({
-    take: 4,
+    take: 3,
     types: "WOMEN",
   });
 

@@ -23,9 +23,9 @@ export const navLinks: NavLink[] = [
   { name: "men", href: "/products/men", collapsible: true },
   { name: "women", href: "/products/women", collapsible: true },
   { name: "kids", href: "/products/kids" },
-  // { name: "sale", href: "/sale" },
-  // { name: "blog", href: "/blog" },
-  // { name: "contacts", href: "/contacts" },
+  { name: "sale", href: "/sale" },
+  { name: "blog", href: "/blog" },
+  { name: "contacts", href: "/contacts" },
 ];
 
 export const sideNavLinks: [string, LucideIcon][] = [
@@ -69,10 +69,10 @@ export const Header = ({ collections }: { collections: Collections }) => {
             ))}
           </ul>
           <ul className="ml-auto items-center md:flex">
-            <Search onSearch={(value) => console.log(value)} />
+            {/* <Search onSearch={(value) => console.log(value)} /> */}
             {session?.user && (
               <div className="m-auto flex items-center gap-2">
-                {sideNavLinks.map(([url, Icon]) => (
+                {/* {sideNavLinks.map(([url, Icon]) => (
                   <>
                     <Link href="/cart">
                       <div className="relative cursor-pointer">
@@ -86,7 +86,7 @@ export const Header = ({ collections }: { collections: Collections }) => {
                       </div>
                     </Link>
                   </>
-                ))}
+                ))} */}
                 <UserMenu user={session?.user} />
               </div>
             )}
