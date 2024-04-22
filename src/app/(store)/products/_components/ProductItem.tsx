@@ -1,13 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Product } from "@/types";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { useState } from "react";
-import { api } from "@/trpc/react";
-import toast from "react-hot-toast";
+
 
 const ProductItem = ({
   id,
@@ -20,13 +18,11 @@ const ProductItem = ({
   const [currentImage, setCurrentImage] = useState(images[0]?.imageURL);
   const productLink = `/product/${id}`;
 
-  // const { data: session } = api.auth.me.useQuery();
-
   return (
     <div className="group rounded-2xl bg-white p-2 shadow-sm">
       <div className="relative h-[400px] overflow-hidden rounded-2xl transition sm:h-[330px]">
         <Link href={productLink} className="relative block h-full w-full">
-          {images.map(({ imageURL, imageBlur }) => (
+          {images.map(({ imageURL }) => (
             <Image
               key={imageURL}
               src={imageURL}
@@ -37,15 +33,13 @@ const ProductItem = ({
               })}
               width={350}
               height={350}
-              placeholder="blur"
-              blurDataURL={imageBlur}
             />
           ))}
         </Link>
       </div>
       <div className="mb-1 mt-2 space-y-4 px-1">
         <div className="flex gap-2">
-          {images.map(({ imageURL, imageBlur }, index) => (
+          {images.map(({ imageURL }, index) => (
             <button
               key={index}
               className="h-[40px] w-[40px] overflow-hidden rounded-full"
@@ -58,7 +52,7 @@ const ProductItem = ({
                 width={40}
                 height={40}
                 placeholder="blur"
-                blurDataURL={imageBlur}
+                // blurDataURL={imageBlur}
               />
             </button>
           ))}
@@ -78,16 +72,6 @@ const ProductItem = ({
             <h4>{rate} (69 Reviews)</h4>
           </div>
         </div>
-        {/* {session?.user && (
-          <Button
-            onClick={() => addToCartHandler(id)}
-            variant="default"
-            className="flex w-full gap-1"
-          >
-            <ShoppingBag />
-            Add to bag
-          </Button>
-        )} */}
       </div>
     </div>
   );

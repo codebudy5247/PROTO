@@ -4,7 +4,7 @@ import { useState } from "react";
 
 type image = {
   imageURL: string;
-  imageBlur: string;
+  imageBlur: string | null;
 };
 type Props = {
   images: image[];

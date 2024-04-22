@@ -130,9 +130,9 @@ model Product {
 model ProductImage {
     id        Int      @id @default(autoincrement())
     imageURL  String
-    imageBlur String
-    Product   Product? @relation(fields: [productId], references: [id])
-    productId String?
+    imageBlur String?
+    Product   Product @relation(fields: [productId], references: [id])
+    productId String
 
     @@map("product_images")
 }

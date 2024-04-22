@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const ImagesSchema = z.object({
   imageURL: z.string(),
-  imageBlur: z.string(),
+  imageBlur: z.string().optional(),
 });
 
 enum CollectionType {
