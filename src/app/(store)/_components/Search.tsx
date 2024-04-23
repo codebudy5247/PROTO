@@ -1,39 +1,36 @@
-import { useState, useRef } from 'react';
-import {X,SearchIcon} from "lucide-react"
+"use client";
+import { useState, useRef } from "react";
+import { X, SearchIcon } from "lucide-react";
 
-interface Props {
-    onSearch: (value: string) => void;
-  }
-export const Search = ({ onSearch }: Props) => {
-    const [value, setValue] = useState('');
+export const Search = () => {
+  const [value, setValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (value) onSearch(value);
   };
 
   const handleClearInput = () => {
-    setValue('');
+    setValue("");
     if (inputRef.current) inputRef.current.focus();
   };
 
   const showClearButton = !!value;
   return (
-<form
-      className="relative flex h-10 max-w-[200px] content-between items-center"
+    <form
+      className="relative flex h-10 content-between items-center"
       onSubmit={handleSubmit}
     >
       <input
-        className="h-full w-full rounded-lg border border-solid border-transparent bg-neutral-100 p-2.5 pr-9 text-neutral-900 placeholder-neutral-500 outline-none transition-colors focus:border-violet-500"
+        className="h-full w-full rounded-lg border border-solid border-transparent bg-neutral-100 p-2.5 pr-9 text-neutral-900 placeholder-neutral-500 outline-none transition-colors focus:border-black"
         type="text"
         name="search"
         id="search"
-        placeholder="Search"
+        placeholder="Search product..."
         aria-label="Search"
         value={value}
         ref={inputRef}
-        onChange={e => setValue(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
       />
       {showClearButton ? (
         <button
@@ -54,5 +51,5 @@ export const Search = ({ onSearch }: Props) => {
         </button>
       )}
     </form>
-  )
-}
+  );
+};

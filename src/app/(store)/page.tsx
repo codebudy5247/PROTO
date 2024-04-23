@@ -2,6 +2,7 @@ import { ArrowDownToLine, CheckCircle, Leaf } from "lucide-react";
 import ProductReel from "./_components/ProductReel";
 import Container from "@/components/Container";
 import { api } from "@/trpc/server";
+import { Search } from "./_components/Search";
 
 const perks = [
   {
@@ -38,7 +39,10 @@ export default async function Home() {
   return (
     <>
       <Container>
-        <div className="mx-auto flex max-w-3xl flex-col items-center py-20 text-center">
+      <div className="mx-auto w-full p-5">
+          <Search />
+        </div>
+        <div className="mx-auto flex max-w-3xl flex-col items-center py-10 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Your marketplace for high-quality{" "}
             <span className="text-blue-600">products</span>.
@@ -48,6 +52,7 @@ export default async function Home() {
             team to ensure our highest quality standards.
           </p>
         </div>
+        
         <ProductReel
           href="/products/men"
           title="Mens Collection"
