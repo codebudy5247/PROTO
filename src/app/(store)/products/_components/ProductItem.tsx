@@ -51,7 +51,7 @@ const ProductItem = ({
                 className="object-cover"
                 width={40}
                 height={40}
-                placeholder="blur"
+                // placeholder="blur"
                 // blurDataURL={imageBlur}
               />
             </button>
