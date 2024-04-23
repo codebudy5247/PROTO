@@ -39,9 +39,9 @@ export default async function Home() {
   return (
     <>
       <Container>
-      <div className="mx-auto w-full p-5">
+        {/* <div className="mx-auto w-full p-5">
           <Search />
-        </div>
+        </div> */}
         <div className="mx-auto flex max-w-3xl flex-col items-center py-10 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Your marketplace for high-quality{" "}
@@ -52,7 +52,7 @@ export default async function Home() {
             team to ensure our highest quality standards.
           </p>
         </div>
-        
+
         <ProductReel
           href="/products/men"
           title="Mens Collection"
