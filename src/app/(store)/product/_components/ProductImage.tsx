@@ -19,7 +19,7 @@ const ProductImage = ({ images }: Props) => {
         <div className="lg:order-2 lg:ml-5">
           <div className="max-w-xl overflow-hidden rounded-lg">
             <img
-              className="h-4/5 w-4/5 max-w-full object-cover"
+              className="max-w-full object-cover"
               src={currentImage}
               alt=""
             />

@@ -60,7 +60,6 @@ export const Header = ({ collections }: { collections: Collections }) => {
             ))}
           </ul>
           <ul className="ml-auto items-center md:flex">
-            {/* <Search onSearch={(value) => console.log(value)} /> */}
             {session?.user && (
               <div className="m-auto flex items-center gap-2">
                 <UserMenu user={session?.user} />

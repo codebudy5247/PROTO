@@ -27,7 +27,7 @@ const ProductReel = ({ title, subtitle, href, products }: ProductReelProps) => {
         {href ? (
           <Link
             href={href}
-            className="hidden text-sm font-medium text-blue-600 hover:text-blue-500 md:block"
+            className="px-4 text-sm font-medium text-blue-600 hover:text-blue-500 md:block"
           >
             Shop the collection <span aria-hidden="true">&rarr;</span>
           </Link>
@@ -36,7 +36,7 @@ const ProductReel = ({ title, subtitle, href, products }: ProductReelProps) => {
 
       <div className="relative">
         <div className="mt-6 flex w-full items-center">
-          <div className="grid w-full grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 md:gap-y-10 lg:gap-x-8">
+          <div className="grid w-full grid-cols-1 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 md:gap-y-10 lg:gap-x-8">
             {products?.map((product) => (
               <div key={product.id}>
                 <ProductItem {...product} />
