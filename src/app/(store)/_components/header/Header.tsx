@@ -9,6 +9,7 @@ import { capitalizeFirstLetter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import { UserMenu } from "./UserMenu";
+import { Transition } from "@headlessui/react";
 
 export interface NavLink {
   name: "men" | "women" | "kids" | "sale" | "blog" | "contacts";
@@ -75,14 +76,16 @@ export const Header = ({ collections }: { collections: Collections }) => {
             )}
           </ul>
         </div>
-        {hoveredNavLink && (
-          <MegaMenu
-            type={hoveredNavLink.name === "men" ? "MEN" : "WOMEN"}
-            collections={collections}
-            onShowMenu={() => handleShowMenu(hoveredNavLink)}
-            onCloseMenu={handleCloseMenu}
-          />
-        )}
+        <Transition show={Boolean(hoveredNavLink?.collapsible)}>
+          {hoveredNavLink && (
+            <MegaMenu
+              type={hoveredNavLink.name === "men" ? "MEN" : "WOMEN"}
+              collections={collections}
+              onShowMenu={() => handleShowMenu(hoveredNavLink)}
+              onCloseMenu={handleCloseMenu}
+            />
+          )}
+        </Transition>
       </div>
     </header>
   );
