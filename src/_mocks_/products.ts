@@ -12,7 +12,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLACK"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -58,7 +58,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["GREEN", "PINK"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -109,7 +109,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLUE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -145,7 +145,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["RED"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -191,7 +191,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLACK"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -232,7 +232,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["ORANGE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -278,7 +278,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["ORANGE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -314,7 +314,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["GRAY"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -360,7 +360,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLUE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -401,7 +401,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["PINK"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -442,7 +442,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLUE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -478,7 +478,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLUE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -514,7 +514,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["YELLOW"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -550,7 +550,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLUE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -586,7 +586,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["GRAY"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -632,7 +632,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["GREEN"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -678,7 +678,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLUE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -719,7 +719,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLUE"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -755,7 +755,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["BLUE", "PINK", "YELLOW"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -801,7 +801,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["GRAY"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -837,7 +837,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["GRAY"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -878,7 +878,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["GRAY"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
@@ -919,7 +919,7 @@ export const products: Prisma.ProductCreateInput[] = [
     colors: ["RED", "PINK", "GRAY"],
     User: {
       connect: {
-        id: "27947027-00b9-46a8-8c48-53a0692cc6ab",
+        id: "8a52ac07-77a5-42f5-8f11-c73f68d69373",
       },
     },
     collection: {
