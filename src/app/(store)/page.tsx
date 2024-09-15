@@ -2,14 +2,13 @@ import { ArrowDownToLine, CheckCircle, Leaf } from "lucide-react";
 import ProductReel from "./_components/ProductReel";
 import Container from "@/components/Container";
 import { api } from "@/trpc/server";
-import { Search } from "./_components/Search";
 
 const perks = [
   {
-    name: "Instant Delivery",
+    name: "Fast Delivery",
     Icon: ArrowDownToLine,
     description:
-      "Get your assets delivered to your email in seconds and download them right away.",
+      "Get your order delivered to your doorstep within 24 hours by our delivery partner, ensuring a smooth and quick shopping experience.",
   },
   {
     name: "Guaranteed Quality",
@@ -39,9 +38,6 @@ export default async function Home() {
   return (
     <>
       <Container>
-        {/* <div className="mx-auto w-full p-5">
-          <Search />
-        </div> */}
         <div className="mx-auto flex max-w-3xl flex-col items-center py-10 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Your marketplace for high-quality{" "}
