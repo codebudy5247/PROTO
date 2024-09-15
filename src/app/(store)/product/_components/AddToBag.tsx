@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { ShoppingBag } from "lucide-react";
 import useCartStore from "@/hooks/useCart";
+import useLocationStore from "@/hooks/useLocation";
 import { useState } from "react";
 import { api } from "@/trpc/react";
 import toast from "react-hot-toast";
@@ -13,8 +14,11 @@ interface Props {
 
 const AddToBag = ({ id }: Props) => {
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
   const { size, color } = useCartStore((state) => state);
+  const { updatePreviousLocation } = useLocationStore(
+    (state) => state,
+  );
   const [submitting, setSubmitting] = useState(false);
 
   const { data: session } = api.auth.me.useQuery();
@@ -35,17 +39,16 @@ const AddToBag = ({ id }: Props) => {
   });
 
   const addToCartHandler = () => {
-    if(size && color){
+    if (size && color) {
       if (session?.user) {
         addToCartFn({ productId: id, quantity: 1, size, color });
       } else {
-        localStorage.setItem("PreviousLoc",pathname)
+        updatePreviousLocation(pathname)
         router.push("/signin");
       }
     } else {
-      toast.error("Select size and color.")
+      toast.error("Select size and color.");
     }
-    
   };
   return (
     <Button

@@ -19,10 +19,12 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { LoginSchema } from "@/schemas/auth";
 import useAuthStore from "@/hooks/useAuth";
+import useLocationStore from "@/hooks/useLocation";
 
 const SigninForm = () => {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
+  const { previousLocation } = useLocationStore((state) => state);
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -33,7 +35,7 @@ const SigninForm = () => {
 
   const updateUser = useAuthStore((state) => state.updateUser);
 
-  // const from = localStorage.getItem("PreviousLoc")! || "/"
+  const from = previousLocation ?? "/";
 
   const { mutate: loginFn } = api.auth.login.useMutation({
     onMutate() {
@@ -45,7 +47,7 @@ const SigninForm = () => {
     onSuccess: (data) => {
       toast.success("Login successfully");
       updateUser(data.user);
-      router.push("/");
+      router.push(from);
     },
     onError: (error) => {
       toast.error(error.message);
