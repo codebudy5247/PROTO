@@ -100,6 +100,10 @@ export const productRouter = createTRPCRouter({
       return {
         products,
         totalCount,
+        metadata: {
+          hasNextPage: skip + take < totalCount,
+          totalPages: Math.ceil(totalCount / take),
+        },
       };
     }),
   id: publicProcedure

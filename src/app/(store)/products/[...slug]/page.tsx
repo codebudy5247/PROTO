@@ -1,18 +1,16 @@
 import React from "react";
 import { api } from "@/trpc/server";
-import { ProductSize, type CollectionType, ProductColor } from "@prisma/client";
+import { type CollectionType } from "@prisma/client";
 import ProductList from "../_components/ProductList";
+import { redirect } from "next/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProductPageProps {
   params: {
     slug: string[] | undefined;
   };
   searchParams: {
-    sizes: string | string[] | undefined;
-    colors: string | string[] | undefined;
-    page: number | undefined;
-    price: string | undefined;
-    rate: number | undefined;
+    page: string | undefined;
   };
 }
 
@@ -20,40 +18,67 @@ const ProductPage: React.FC<ProductPageProps> = async ({
   params,
   searchParams,
 }) => {
-  const { slug } = params as { slug: string[] | undefined };
+  const { slug } = params;
+
+  const currentPage = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
+
+  if (isNaN(currentPage) || currentPage < 1) {
+    return redirect(`/products?slug=${slug?.join("/") ?? ""}&page=1`);
+  }
+
+  const take = 8;
 
   const products = await api.product.list({
-    take:10,
+    take,
     types: slug?.[0]?.toUpperCase() as CollectionType,
     slug: slug?.[1],
-    sizes: [searchParams.sizes].flat(1).filter(Boolean) as ProductSize[],
-    colors: [searchParams.colors].flat(1).filter(Boolean) as ProductColor[],
-    // page: Number(searchParams?.page),
-    // rate: Number(searchParams?.rate),
-    // gte: searchParams?.price
-    //   ? searchParams?.price === "$"
-    //     ? 0
-    //     : searchParams?.price === "$$"
-    //       ? 10
-    //       : 100
-    //   : undefined,
-    // lte: searchParams.price
-    //   ? searchParams.price === "$"
-    //     ? 10
-    //     : searchParams.price === "$$"
-    //       ? 100
-    //       : 1000000
-    //   : undefined,
+    page: currentPage,
   });
+
+  if (currentPage < 1 || currentPage > products.metadata.totalPages) {
+    return redirect(`/products?slug=${slug?.join("/") ?? ""}&page=1`);
+  }
+
+  const renderPageNumbers = () => {
+    const totalPages = products.metadata.totalPages;
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <a
+          key={i}
+          href={`?slug=${slug?.join("/") ?? ""}&page=${i}`}
+          className={`mx-1 rounded px-3 py-1 ${currentPage === i ? "bg-black text-white" : "bg-gray-200"}`}
+        >
+          {i}
+        </a>,
+      );
+    }
+    return pages;
+  };
 
   return (
     <div className="mx-auto items-center p-4 xl:container">
       <div className="flex gap-5">
-        {/* <div className="hidden flex-1 md:block">
-          <Navigation />
-        </div> */}
         <div className="flex-[5]">
           <ProductList products={products?.products} />
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <a
+              className={`rounded bg-gray-200 px-2 py-1 ${currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}`}
+              href={`?slug=${slug?.join("/") ?? ""}&page=${currentPage - 1}`}
+              aria-disabled={currentPage === 1}
+            >
+              <ChevronLeft />
+            </a>
+
+            <div className="flex">{renderPageNumbers()}</div>
+            <a
+              className={`rounded bg-gray-200 px-2 py-1 ${!products.metadata.hasNextPage ? "cursor-not-allowed opacity-50" : ""}`}
+              href={`?slug=${slug?.join("/") ?? ""}&page=${currentPage + 1}`}
+              aria-disabled={!products.metadata.hasNextPage}
+            >
+              <ChevronRight />
+            </a>
+          </div>
         </div>
       </div>
     </div>
