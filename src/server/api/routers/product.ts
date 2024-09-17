@@ -146,8 +146,8 @@ export const productRouter = createTRPCRouter({
           images: {
             createMany: {
               data: input.images.map((image) => ({
-                imageURL: image.imageURL,
-                imageBlur: image.imageBlur,
+                imageURL: image,
+                imageBlur: "",
               })),
             },
           },
