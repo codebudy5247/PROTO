@@ -9,7 +9,6 @@ export const deserializeUser = async () => {
     let token
     if (cookieStore.get("token")) {
       token = cookieStore.get("token")?.value;
-      console.log(token,"token from middle");
     }
     
     const notAuthenticated = {

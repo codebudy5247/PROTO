@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 const AddProductForm = dynamic(
-  () => import("../../_components/products/AddProductForm"),
+  () => import("@/app/admin/_components/products/AddProductForm"),
   { ssr: false },
 );
 
