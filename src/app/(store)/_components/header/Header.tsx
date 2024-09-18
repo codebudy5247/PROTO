@@ -21,9 +21,9 @@ export const navLinks: NavLink[] = [
   { name: "men", href: "/products/men", collapsible: true },
   { name: "women", href: "/products/women", collapsible: true },
   { name: "kids", href: "/products/kids" },
-  { name: "sale", href: "/sale" },
-  { name: "blog", href: "/blog" },
-  { name: "contacts", href: "/contacts" },
+  { name: "sale", href: "/" },
+  { name: "blog", href: "/" },
+  { name: "contacts", href: "/" },
 ];
 
 export const Header = ({ collections }: { collections: Collections }) => {
@@ -31,7 +31,7 @@ export const Header = ({ collections }: { collections: Collections }) => {
   const handleShowMenu = (navLink: NavLink) => setHoveredNavLink(navLink);
   const handleCloseMenu = () => setHoveredNavLink(null);
 
-  const { data: session } = api.auth.me.useQuery();
+  const { data: session, refetch: refetchSession } = api.auth.me.useQuery();
 
   return (
     <header>
@@ -63,7 +63,7 @@ export const Header = ({ collections }: { collections: Collections }) => {
           <ul className="ml-auto items-center md:flex">
             {session?.user && (
               <div className="m-auto flex items-center gap-2">
-                <UserMenu user={session?.user} />
+                <UserMenu user={session?.user} refetchSession={refetchSession} />
               </div>
             )}
 
