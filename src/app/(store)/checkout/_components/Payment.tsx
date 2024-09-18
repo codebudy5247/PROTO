@@ -32,7 +32,7 @@ const Payment = () => {
     try {
       setSubmitting(true);
       const createOrderResponse = await fetch(
-        `http://localhost:3000/api/order`,
+        `/api/order`,
         {
           method: "POST",
           headers: {
@@ -43,7 +43,7 @@ const Payment = () => {
       if (createOrderResponse.ok) {
         const createOrderResponseData = await createOrderResponse.json();
         const generatePaymentResponse = await fetch(
-          `http://localhost:3000/api/razorpay/generate`,
+          `/api/razorpay/generate`,
           {
             method: "POST",
             headers: {
@@ -63,20 +63,20 @@ const Payment = () => {
                 setSubmitting(false);
               },
             },
-            key: "rzp_test_NWmmolnPl4gb3H", // Razorpay key id
-            name: "Aditya shekhar Pvt Ltd",
+            key: "rzp_test_NWmmolnPl4gb3H",
+            name: "Porto Pvt Ltd",
             currency: generatePaymentResponseData.currency,
             amount: generatePaymentResponseData.amount,
             order_id: generatePaymentResponseData.id,
-            description: "Thankyou for your shopping",
-            image: "https://example.com/your_logo",
+            description: "Thank you for your shopping",
+            image: "https://utfs.io/f/zosqoYISl02ZZ71v2EgMEYzOCey4w2G1ujHb65mX9spiB8Nc",
             handler: async function (
               razorpayPaymentHandlerResponse: RazorpayPaymentHandlerResponse,
             ) {
               // Validate payment at server
               try {
                 const verifyPaymentResponse = await fetch(
-                  `http://localhost:3000/api/razorpay/verify`,
+                  `/api/razorpay/verify`,
                   {
                     method: "POST",
                     headers: {
@@ -115,11 +115,12 @@ const Payment = () => {
               "Payment failed. Please try again. Contact support for help",
             );
           });
-          setSubmitting(false);
         }
       }
     } catch (error) {
       console.log(error);
+    } finally{
+      setSubmitting(false)
     }
   };
   if(!user?.user) return
