@@ -20,6 +20,7 @@ import { useState } from "react";
 import { LoginSchema } from "@/schemas/auth";
 import useAuthStore from "@/hooks/useAuth";
 import useLocationStore from "@/hooks/useLocation";
+import { env } from "@/env";
 
 const SigninForm = () => {
   const router = useRouter();
@@ -60,8 +61,8 @@ const SigninForm = () => {
   };
 
   const getLoginCridentials = () => {
-    form.setValue("email", process.env.NEXT_PUBLIC_ADMIN_EMAIL!);
-    form.setValue("password", process.env.NEXT_PUBLIC_ADMIN_PASSWORD!);
+    form.setValue("email", env.NEXT_PUBLIC_ADMIN_EMAIL);
+    form.setValue("password", env.NEXT_PUBLIC_ADMIN_PASSWORD);
   };
 
   return (

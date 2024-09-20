@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import toast from "react-hot-toast";
 import PaymentConfirmationModel from "./PaymentConfirmationModel";
+import { env } from "@/env";
 
 declare global {
   interface Window {
@@ -63,7 +64,7 @@ const Payment = () => {
                 setSubmitting(false);
               },
             },
-            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+            key: env.NEXT_PUBLIC_RAZORPAY_KEY,
             name: "Porto Pvt Ltd",
             currency: generatePaymentResponseData.currency,
             amount: generatePaymentResponseData.amount,
