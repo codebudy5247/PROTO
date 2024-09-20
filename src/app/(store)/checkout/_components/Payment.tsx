@@ -63,7 +63,7 @@ const Payment = () => {
                 setSubmitting(false);
               },
             },
-            key: "rzp_test_NWmmolnPl4gb3H",
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
             name: "Porto Pvt Ltd",
             currency: generatePaymentResponseData.currency,
             amount: generatePaymentResponseData.amount,

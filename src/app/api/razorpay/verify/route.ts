@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { db } from "@/server/db";
 import { VerifyPaymentSchema } from "@/schemas/order";
 import { deserializeUser } from "@/server/api/middleware";
+import { env } from "@/env";
 
 export async function POST(req: Request) {
   try {
@@ -18,7 +19,7 @@ export async function POST(req: Request) {
     const body = razorpay_order_id + "|" + razorpay_payment_id;
 
     const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+      .createHmac("sha256", env.RAZORPAY_KEY_SECRET)
       .update(body.toString())
       .digest("hex");
     if (expectedSignature === razorpay_signature) {

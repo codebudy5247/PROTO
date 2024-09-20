@@ -60,8 +60,8 @@ const SigninForm = () => {
   };
 
   const getLoginCridentials = () => {
-    form.setValue("email", "admin@example.com");
-    form.setValue("password", "#shekhar5247");
+    form.setValue("email", process.env.NEXT_PUBLIC_ADMIN_EMAIL!);
+    form.setValue("password", process.env.NEXT_PUBLIC_ADMIN_PASSWORD!);
   };
 
   return (

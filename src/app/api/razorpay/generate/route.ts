@@ -3,6 +3,7 @@ import Razorpay from "razorpay";
 import { z } from "zod";
 import { db } from "@/server/db";
 import { deserializeUser } from "@/server/api/middleware";
+import { env } from "@/env";
 
 const InputSchema = z.object({
   orderId: z.string().min(1, "ID is required"),
@@ -30,8 +31,8 @@ export async function POST(req: Request) {
       );
     }
     const razorpayInstance = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID!,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
+      key_id: env.RAZORPAY_KEY_ID,
+      key_secret: env.RAZORPAY_KEY_SECRET,
     });
     const orderOptions = {
       amount: Number(order.netAmount) * 100, // in paisa
