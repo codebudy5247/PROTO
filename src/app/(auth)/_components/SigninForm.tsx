@@ -59,6 +59,11 @@ const SigninForm = () => {
     loginFn(values);
   };
 
+  const getLoginCridentials = () => {
+    form.setValue("email", "admin@example.com");
+    form.setValue("password", "#shekhar5247");
+  };
+
   return (
     <>
       <h1 className="mb-5 text-center text-2xl font-extrabold">LOGIN</h1>
@@ -100,6 +105,9 @@ const SigninForm = () => {
             Sign in
           </Button>
         </form>
+        <Button onClick={getLoginCridentials} className="mt-6 w-full">
+          Get Login cridentials
+        </Button>
         <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
           or
         </div>
