@@ -1,4 +1,6 @@
+"use client";
 import clsx from "clsx";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const colorOptions = [
   { label: "BLACK", value: "bg-black" },
@@ -14,6 +16,21 @@ const colorOptions = [
 ];
 
 const ProductColour = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const selectedColors = searchParams.getAll("colors");
+
+  const handleColorChange = (color: string) => {
+    const newColors = selectedColors.includes(color)
+      ? selectedColors.filter((c) => c !== color)
+      : [...selectedColors, color];
+
+    const queryParams = new URLSearchParams(searchParams);
+    queryParams.delete("colors");
+    newColors.forEach((c) => queryParams.append("colors", c));
+    router.push(`?${queryParams.toString()}`);
+  };
+
   return (
     <div className="rounded-lg bg-neutral-100">
       <div className='className="flex text-neutral-600" w-full items-center justify-between px-2.5 py-2.5 text-sm font-semibold'>
@@ -27,24 +44,24 @@ const ProductColour = () => {
                 type="checkbox"
                 id={label}
                 className="hidden"
-                // checked={selectedColors.includes(label)}
-                // onChange={() => handleChange(label)}
+                checked={selectedColors.includes(label)}
+                onChange={() => handleColorChange(label)}
               />
               <label htmlFor={label} className="flex items-center gap-1">
                 <span
                   className={clsx(
                     `h-6 w-6 cursor-pointer overflow-hidden rounded-full p-[2px]`,
-                    // {
-                    //   "bg-violet-700": selectedColors.includes(label),
-                    //   [value]: !selectedColors.includes(label),
-                    // },
+                    {
+                      "bg-violet-700": selectedColors.includes(label),
+                      [value]: !selectedColors.includes(label),
+                    },
                   )}
                 >
-                  {/* {selectedColors.includes(label) && (
+                  {selectedColors.includes(label) && (
                     <div className="h-full w-full rounded-full bg-white p-[2px]">
                       <div className={`${value} h-full w-full rounded-full`} />
                     </div>
-                  )} */}
+                  )}
                 </span>
               </label>
             </li>

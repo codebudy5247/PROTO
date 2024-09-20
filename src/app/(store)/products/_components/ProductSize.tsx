@@ -1,23 +1,23 @@
-import { useQuery } from "@/hooks/useQuery";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const sizeOptions = ["S", "M", "L", "XL", "XXL", "XXXL"];
 
 const ProductSize = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { addQuery, removeQuery } = useQuery();
-
   const selectedSizes = searchParams.getAll("sizes");
-  const handleChange = (option: string) => {
-    const updatedSizes = selectedSizes.includes(option)
-      ? selectedSizes.filter((size) => size !== option)
-      : [...selectedSizes, option];
 
-    const updatedQuery = addQuery("sizes", updatedSizes.join(","));
-    if (updatedSizes.length === 0) removeQuery("sizes");
-    else router.push(pathname + "?" + updatedQuery);
+  const handleChange = (size: string) => {
+    const newSizes = selectedSizes.includes(size)
+      ? selectedSizes.filter((s) => s !== size) // Deselect size
+      : [...selectedSizes, size]; // Select size
+
+    // Update the URL with the new sizes
+    const queryParams = new URLSearchParams(searchParams);
+    queryParams.delete("sizes"); // Clear existing sizes
+    newSizes.forEach((s) => queryParams.append("sizes", s));
+    router.push(`?${queryParams.toString()}`);
   };
   return (
     <div className="rounded-lg bg-neutral-100">

@@ -2,6 +2,7 @@
 import ProductSize from "./ProductSize";
 import ProductColour from "./ProductColour";
 import ProductPrice from "./ProductPrice";
+import ProductRate from "./ProductRate";
 
 export const Navigation = () => {
   return (
@@ -9,6 +10,7 @@ export const Navigation = () => {
       <ProductSize />
       <ProductPrice />
       <ProductColour />
+      <ProductRate />
     </div>
   );
 };
